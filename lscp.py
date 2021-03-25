@@ -92,8 +92,8 @@ elif dataType == 'data':
     os.system('sudo scp -r {}:/home/pi/Desktop/minion_data/ {}'.format(hostMinion, Destination))
 
 elif dataType == '' or 'both':
-    os.system('sudo scp -r -T {}:"/home/pi/Desktop/minion_pics/ /home/pi/Desktop/minion_data/" "{}"'.format(hostMinion, Destination))
-#    os.system('sudo scp -r {}:/home/pi/Desktop/minion_data/ {}/'.format(hostMinion, Destination))
+    os.system('sudo scp -r {}:/home/pi/Desktop/minion_pics/ {}'.format(hostMinion, Destination))
+    os.system('sudo scp -r {}:/home/pi/Desktop/minion_data/ {}'.format(hostMinion, Destination))
 
 else:
     print('Please specify either [pics] or [data]')
