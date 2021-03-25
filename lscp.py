@@ -6,6 +6,8 @@ cwd = os.getcwd()
 
 usrHome = str(os.path.expanduser("~"))
 
+timestr = time.strftime("%Y%m%d_%H-%M")
+
 def yes_no(answer):
     yes = set(['yes','y', 'ye', 'yeet', ''])
     no = set(['no','n'])
@@ -20,16 +22,21 @@ def yes_no(answer):
             print("Please respond with 'yes' or 'no'\n")
 
 def mkdir_safe(path):
-	if os.path.isdir(path) == True:
-		print("\nDirectory: [{}] already exists. \n\nProcess stopped to protect files.".format(path))
-		exit(0)
+    if os.path.isdir(path) == True:
+        print("\nDirectory: [{}] already exists. \n\nSub directories populated with data.".format(path))
+        dataNum = str(len(os.listdir("{}".format(path)))+1)
+        os.system("mkdir {}/{}-{}/".format(path, dataNum, timestr))
 
-	elif os.path.isdir(path) == False:
-		os.system("mkdir {}".format(path))
+    elif os.path.isdir(path) == False:
+        os.system("mkdir -p {}/1-{}/".format(path,timestr))
+        dataNum = 1
 
-	else:
-		print("Mistakes were made here")
-		exit(0)
+    else:
+        print("Mistakes were made here")
+        exit(0)
+
+    fullpath = "{}/{}-{}".format(path,dataNum,timestr)
+    return fullpath
 
 
 # to simplify the {scp remote_username@10.10.0.2:/remote/file.txt /local/directory}
@@ -74,11 +81,13 @@ if Destination == False:
     Destination = raw_input("Please specify local file destination: {}/".format(usrHome))
     Destination = Destination.strip("/")
     Destination = "{}/{}/Minion_{}".format(usrHome, Destination, numMinion)
-    mkdir_safe(Destination)
+    fullpath = mkdir_safe(Destination)
 
 else:
     Destination = '{}/Desktop/Minion_{}'.format(usrHome,numMinion)
-    mkdir_safe(Destination)
+    Destination = mkdir_safe(Destination)
+
+print(Destination)
 
 
 if dataType == 'custom':
